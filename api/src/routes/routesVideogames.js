@@ -1,18 +1,14 @@
 const { Router } = require('express');
+const { getVideogames, getVideogameById, getFirstsVideogames, createVideogame } = require("../handlers/videogamesHandler")
 
 const routesVideogames = Router();
 
-routesVideogames.get("/", (req, res) => {
-    res.status(200).send("Arreglo de videojuegos(objetos)")
-}) 
-routesVideogames.get("/:idVideogame", (req, res) => {
-    res.status(200).send("Obtiene el detalle de un videojuego específico")
-})
-routesVideogames.get(`/name?="..."`, (req, res) => {
-    res.status(200).send("Obtiene los primeros 15 juegos de la query")
-})
-routesVideogames.post("/", (req, res) => {
-    res.status(200).send("Recibe los datos para crear un videojuego")
-})
+routesVideogames.get("/all", getVideogames)
 
-module.exports = routesVideogames ;
+routesVideogames.get("/:id", getVideogameById) // /:id hace que la ruta se modifique completamente
+
+routesVideogames.get(`/`, getFirstsVideogames) // lo que venga despues de la ruta no modificará la ruta
+
+routesVideogames.post("/", createVideogame) // por body recibiremos la información en formato json
+
+module.exports = routesVideogames;
