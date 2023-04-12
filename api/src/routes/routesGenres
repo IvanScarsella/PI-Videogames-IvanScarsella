@@ -1,0 +1,9 @@
+const { Router } = require('express');
+
+const routesGenres = Router();
+
+routesGenres.get("/", (req, res) => {
+    res.status(200).send("Obtiene un arreglo con los géneros existentes en la API")
+})
+
+module.exports = routesGenres;
