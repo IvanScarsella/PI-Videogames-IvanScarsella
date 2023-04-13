@@ -1,0 +1,25 @@
+const axios = require("axios");
+const { userInfo } = require("os");
+require("dotenv").config();
+const { API_KEY, URL } = process.env;
+const { Videogame } = require("../db");
+
+const createVideogameDB = async (name, description, platform, image, release, rating) => {
+    const newVideogame = await Videogame.create({ name, description, platform, image, release, rating });
+
+    return newVideogame;
+}
+
+const getVideogameById = async (id, source) => {
+    const videogame = source === "api" 
+    ? (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`))
+    .data 
+    : await Videogame.findByPk(id);
+    return videogame;
+}
+
+const getVideogames = (req, res) => {
+
+}
+
+module.exports = { createVideogameDB, getVideogameById, getVideogames };
