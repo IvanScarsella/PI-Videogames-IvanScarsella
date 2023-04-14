@@ -3,6 +3,7 @@ const { userInfo } = require("os");
 require("dotenv").config();
 const { API_KEY, URL } = process.env;
 const { Videogame } = require("../db");
+const infoCleaner = require("../utils/genericFunctions");
 
 const createVideogameDB = async (name, description, platform, image, release, rating) => {
     const newVideogame = await Videogame.create({ name, description, platform, image, release, rating });
@@ -18,8 +19,27 @@ const getVideogameById = async (id, source) => {
     return videogame;
 }
 
-const getVideogames = (req, res) => {
+const getAllVideogames = async () => {
+    const videogameDB = await Videogame.findAll();
+    const infoApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`) // https://jsonplaceholder.typicode.com/users/
+    ).data;
 
+   const videogameApi = infoCleaner(infoApi);
+
+    return [...videogameDB, ...videogameApi]; // esto junta los dos arrays
 }
 
-module.exports = { createVideogameDB, getVideogameById, getVideogames };
+const getVideogameByName = async (name) => {
+    const infoApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`) // https://jsonplaceholder.typicode.com/users/
+    ).data;
+
+   const videogameApi = infoCleaner(infoApi);
+
+   const videogameFiltered = videogameApi.filter(videogame => videogame.name === name);
+
+   const videogameDB = await Videogame.findAll({where: {name:name}});
+
+   return [ ...videogameFiltered, ...videogameDB];
+}
+
+module.exports = { createVideogameDB, getVideogameById, getAllVideogames, getVideogameByName };

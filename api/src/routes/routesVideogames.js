@@ -3,7 +3,7 @@ const { getVideogames, getVideogameDetail, getFirstsVideogames, createVideogame 
 
 const routesVideogames = Router();
 
-routesVideogames.get("/all", getVideogames)
+routesVideogames.get("/all", getFirstsVideogames)
 
 routesVideogames.get("/:id", getVideogameDetail) // /:id hace que la ruta se modifique completamente
 

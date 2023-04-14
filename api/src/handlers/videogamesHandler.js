@@ -1,8 +1,4 @@
-const { createVideogameDB, getVideogameById } = require("../controllers/videogamesControllers");
-
-const getVideogames = (req, res) => {
-    res.status(200).send("Arreglo de videojuegos(objetos)")
-}
+const { createVideogameDB, getVideogameById, getVideogameByName, getAllVideogames } = require("../controllers/videogamesControllers");
 
 const getVideogameDetail = async (req, res) => { // /:id => params
     const { id } = req.params;
@@ -18,16 +14,24 @@ const getVideogameDetail = async (req, res) => { // /:id => params
     }
 }
 
-const getFirstsVideogames = (req, res) => {
+const getFirstsVideogames = async (req, res) => {
 
     const { name } = req.query;
-
-    if (name) {
-        res.status(200).send(`Aquí está el videojuego ${name}`)
-    } else {
-        res.status(200).send("Obtiene los primeros 15 juegos que encuentre con la palabra recibida por query")
-}
-}
+    
+    try {
+        if (name) {
+            const videogameByName = await getVideogameByName(name);
+            res.status(200).json(videogameByName);
+        } 
+        else {
+            const response = getAllVideogames();
+            res.status(200).json(response);
+        }
+    } catch (error) {
+        res.status(400).json({error:error.message})
+        console.log(error)
+        }
+ }
 
 const createVideogame = (req, res) => {
 
@@ -44,7 +48,7 @@ const createVideogame = (req, res) => {
 }
 
 module.exports = {
-    getVideogames,
+    // getVideogames,
     getVideogameDetail,
     getFirstsVideogames,
     createVideogame
