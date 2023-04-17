@@ -1,4 +1,5 @@
-const infoCleaner = (arr) => arr.map(videogame => {
+const infoCleaner = (arr) => { 
+    return arr.map((videogame) => {
     let {name, description, platform, image, release, rating, created} = videogame;
     return {
         name:videogame.name,
@@ -9,6 +10,6 @@ const infoCleaner = (arr) => arr.map(videogame => {
         rating:videogame.rating,
         created:false
     }
-})
+})}
 
 module.exports = infoCleaner;

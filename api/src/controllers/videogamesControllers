@@ -12,34 +12,59 @@ const createVideogameDB = async (name, description, platform, image, release, ra
 }
 
 const getVideogameById = async (id, source) => {
-    const videogame = source === "api" 
-    ? (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`))
-    .data 
-    : await Videogame.findByPk(id);
+    const videogame = source === "api"
+        ? (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`))
+            .data
+        : await Videogame.findByPk(id);
     return videogame;
 }
 
 const getAllVideogames = async () => {
     const videogameDB = await Videogame.findAll();
-    const infoApi = (await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`) // https://jsonplaceholder.typicode.com/users/
-    ).data;
+    const infoApi = [];
+    infoApi.push((await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`) // https://jsonplaceholder.typicode.com/users/
+    ).data);
 
-   const videogameApi = infoCleaner(infoApi);
+    const videogameApi = infoCleaner(infoApi);
 
     return [...videogameDB, ...videogameApi]; // esto junta los dos arrays
 }
 
-const getVideogameByName = async (name) => {
-    const infoApi = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`) // https://jsonplaceholder.typicode.com/users/
-    ).data;
+const getVideogameByName = async (videogame) => {
+    try {
+        const infoApi = (await axios.get(`https://api.rawg.io/api/games?search=${videogame}&key=${API_KEY}`) // https://jsonplaceholder.typicode.com/users/
+        ).data;
 
-   const videogameApi = infoCleaner(infoApi);
+        const videogameApi = infoCleaner(infoApi.results); 
 
-   const videogameFiltered = videogameApi.filter(videogame => videogame.name === name);
+        function buscarObjeto(nombre){
+            let minusculas = videogame[0]; // el [0] es porque videogame está llegando como un array que incluye dos veces el string
+            return nombre.name.toLowerCase() === minusculas.toLowerCase();
+        }
 
-   const videogameDB = await Videogame.findAll({where: {name:name}});
+        let results = await videogameApi.find(buscarObjeto);
 
-   return [ ...videogameFiltered, ...videogameDB];
+        const videogameDB = await Videogame.findAll({ where: { name: videogame } });
+
+        if (results) return [results, ...videogameDB]
+
+    } catch (error) {
+        return { error: error.message }
+    }
 }
+// const getClientByName = async (name)=>{
+//     try {
+//         const response = await client.findAll({
 
+//             where:{
+//                 name: name
+//             }
+//         })
+
+//         if (response.length === 0) throw Error('name not found')
+//         return response
+//     } catch (error) {
+//         return {error: error.message}
+//     }
+// }
 module.exports = { createVideogameDB, getVideogameById, getAllVideogames, getVideogameByName };
