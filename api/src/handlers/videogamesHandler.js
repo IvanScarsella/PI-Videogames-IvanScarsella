@@ -20,18 +20,19 @@ const getFirstsVideogames = async (req, res) => {
     
     try {
         if (name) {
-            const videogameByName = await getVideogameByName(name);
-            res.status(200).json(videogameByName);
+            const aux = name[0];// el [0] es porque está llegando como un array con el string dos veces
+            const videogameByName = await getVideogameByName(aux);
+            return res.status(200).json(videogameByName);
         } 
         else {
-            const response = getAllVideogames();
-            res.status(200).json(response);
+            const response = await getAllVideogames();
+            return res.status(200).json(response);
         }
     } catch (error) {
         res.status(400).json({error:error.message})
         console.log(error)
         }
- }
+ };
 
 const createVideogame = (req, res) => {
 
