@@ -6,14 +6,15 @@ const { Genre } = require("../db")
 
 const getAllGenres = async () => {
         try{
-            let response = await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`);
+            let response = await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`)
             let map = response.data.results.map(genre=>{
                 return {name: genre.name}
             })
-            return map
+            return map;
     }
     catch(error){
-        throw new Error(error);console.log(error);
+        console.log(error);
+        throw new Error(error);
     }
 }
 

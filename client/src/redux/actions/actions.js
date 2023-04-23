@@ -5,7 +5,10 @@ import axios from "axios";
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_BY_NAME = "GET_BY_NAME";
 export const GET_VIDEOGAME_DETAIL = "GET_VIDEOGAME_DETAIL";
-export const GET_GAME_BY_ID = "GET_GAME_BY_ID"
+export const GET_GAME_BY_ID = "GET_GAME_BY_ID";
+export const CREATE_GAME = "CREATE_GAME";
+export const GET_GENRES = "GET_GENRES";
+export const CHANGE_PAGE = "CHANGE_PAGE";
 
 export function getVideogames () {
     return async function(dispatch){
@@ -21,9 +24,23 @@ export function getVideogames () {
         }
     }
 }
+export function getGenres(){
+    return async function(dispatch){
+        try {
+            const response = await axios("http://localhost:3001/genres/");
+            return dispatch({
+                type: GET_GENRES,
+                payload: response.data.response
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+}
 export function getByName (name) {
     return async function(dispatch){
-        try {console.log("hola")
+        try {
             const response = await axios(`http://localhost:3001/videogames?search=${name}`);
             return dispatch({
                 type: GET_BY_NAME,
@@ -52,5 +69,27 @@ export function getVideogameDetail (id) {
             console.log(error)
             // throw new Error ('El detail no está disponible')   
         }
+    }
+}
+export function createGame(data){
+    return async function(dispatch){
+        try{
+            await axios.post(`http://locahost:3001/videogames/`, data)
+            return dispatch({
+                type: CREATE_GAME,
+                payload: {...data, created: true}
+            }
+        )
+        }
+        catch(error){
+            console.log(error)
+            throw new Error('No se ha podido crear el juego')
+        }
+    }
+}
+export function changePage(page){
+    return {
+        type: CHANGE_PAGE,
+        payload: page
     }
 }

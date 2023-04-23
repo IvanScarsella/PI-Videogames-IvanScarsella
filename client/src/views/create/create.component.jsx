@@ -1,6 +1,8 @@
 import './create.styles.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createGame, changePage, getGenres } from '../../redux/actions/actions'
+import { useParams } from 'react-router-dom';
 
 function Create() {
 
@@ -10,11 +12,21 @@ function Create() {
     image: "",
     platforms: [],
     genres: [],
+    // apiGenres: [],
     released: "",
     rating: "",
   });
 
-  const [error, setError] = useState({})
+
+  const [error, setError] = useState({
+    name: "",
+    description: "",
+    image: "",
+    platforms: [],
+    genres: [],
+    released: "",
+    rating: "",
+  })
 
   const validate = (input) => {
     let error = {}
@@ -43,9 +55,15 @@ function Create() {
     return error
   }
 
+
+  const { platforms, genres, pages, apiGenres } = useSelector(state => state)
+
   const dispatch = useDispatch();
 
-  const { platforms, genres, pages } = useSelector(state => state)
+  useEffect(() => {
+    dispatch(getGenres())
+  }, [dispatch])
+  console.log(apiGenres)
 
   function handleChangeInput(e) {
     setInput({
@@ -61,7 +79,7 @@ function Create() {
 
   const handleChangeGenres = (e) => {
     const { genres } = input
-    if (e.target.value !== 'Select one or more options...') { //select one or more can not be added
+    if (e.target.value !== 'Seleccione al menos una opción') { //select one or more can not be added
       const find = genres.find(f => f === e.target.value)
       if (!find) {
         setInput({
@@ -99,38 +117,38 @@ function Create() {
     }
   }
 
-  const handleSubmitForm = (e)=>{
+  const handleSubmitForm = (e) => {
     e.preventDefault()
-    dispatch(createGame(input)) 
-    if(Object.values(input).length===7){ //obtiene los datos
-        setInput({
-            name: "",
-            description: "",
-            image: "",
-            platforms: [],
-            genres: [],
-            released: "",
-            rating: ""
-        })
-        alert("Has creado un videojuego con éxito")
-        // navigate("/videogames")
-        dispatch(changePage(pages)) //reinitiating the page to 
+    dispatch(createGame(input));
+    if (Object.values(input).length === 7 && error.name !== null) { //obtiene los datos
+      setInput({
+        name: "",
+        description: "",
+        image: "",
+        platforms: [],
+        genres: [],
+        released: "",
+        rating: ""
+      })
+      alert("Has creado un videojuego con éxito")
+      // navigate("/videogames")
+      dispatch(changePage(pages)) //reinitiating the page to 
     }
-}
+  }
 
-// function deleteSelectValue(property, value){
-//   const filter = input[property].filter(p=>p!==value)
-//   setInput({
-//       ...input,
-//       [property]: filter
-//   })
-//   if(filter.length===0){
-//       setError(validate({
-//           ...input,
-//           [property]: []
-//       }))
-//   }
-// }
+  function deleteSelectValue(property, value) {
+    const filter = input[property].filter(p => p !== value)
+    setInput({
+      ...input,
+      [property]: filter
+    })
+    if (filter.length === 0) {
+      setError(validate({
+        ...input,
+        [property]: []
+      }))
+    }
+  }
 
   return (
     <div className="Create">
@@ -173,11 +191,33 @@ function Create() {
           <input type='numbre' name='rating' value={input.rating} onChange={handleChangeInput} />
         </div>
 
-        <div>
-          <label>Género
+        {/****  GENRES ******/}
+        <label htmlFor="genres" >Genres</label>
+        <select name="genres" value={input.genres.length === 0 ? "" : input.genres[input.genres.length - 1]}
+          onChange={handleChangeGenres}>
+          <option>Seleccione al menos una opción</option>
+          {apiGenres[0]?.sort((a, b) => a?.name.localeCompare(b?.name)).map((genre) => {
+            return <option name={genre?.name} key={genre?.name} value={genre?.name}>{genre?.name}</option>
+          })}
+        </select>
+        {error.genres ? <label >{error.genres}</label>
+          : <div >
+            {input.genres.map((d, index) => {
+              if (d !== 'Seleccione al menos una opción') { //select one or more can not be selected
+                return (<>
+                  <button key={index} type="button" onClick={() => deleteSelectValue("genres", d)}>x</button>
+                  <label>{d}
+                    {index === input?.genres.length - 1 ? "" : ","}</label> {/* separando por coma menos al final */}
+                </>)
+              }
+              return null
+            })}
+          </div>}
+        {/* <div>
+          <label>Géneros
           </label>
           <input name='genres' value={input.genres} onChange={handleChangeInput} />
-        </div>
+        </div> */}
 
         {error.name ||
           error.description ||
