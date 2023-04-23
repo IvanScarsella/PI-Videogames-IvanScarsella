@@ -1,5 +1,4 @@
 const axios = require("axios");
-const { userInfo } = require("os");
 require("dotenv").config();
 const { API_KEY } = process.env;
 const { Videogame } = require("../db");
@@ -14,11 +13,17 @@ const createVideogameDB = async (name, description, platform, image, release, ra
 }
 
 const getVideogameById = async (id, source) => {
-    const videogame = source === "api"
-        ? (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`))
-            .data
-        : await Videogame.findByPk(id);
-    return videogame;
+   try {
+    const infoApi= [];
+       const videogame = source === "api"
+           ? 
+           infoApi.push((await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`))
+               .data)
+           : await Videogame.findByPk(id);
+       return infoCleaner(infoApi);
+   } catch (error) {
+    console.log(error)
+   }
 }
 
 const getAllVideogames = async () => {
@@ -29,9 +34,9 @@ const getAllVideogames = async () => {
     
     const videogameApi = infoCleaner(infoApi[0].results);
 
-    const first20Videogames = [...videogameApi.slice(0, 20)];console.log(first20Videogames);
+    const first15Videogames = [...videogameApi.slice(0, 15)];
 
-    return [...videogameDB, ...first20Videogames]; // esto junta los dos arrays
+    return [...videogameDB, ...first15Videogames]; // esto junta los dos arrays
 }
 
 const getVideogameByName = async (videogame) => {
