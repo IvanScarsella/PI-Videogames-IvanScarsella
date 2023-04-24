@@ -26,13 +26,14 @@ function Home() {
   // filto sobre el state
   const [filtered, setFiltered] = useState();
 
-
   function handleSubmit(e) {
     e.preventDefault();
     setSearchString(e.target.value)
     const filtered = allVideogames.filter((videogame) =>
     videogame.name.includes(searchString));
     filtered ? setFiltered(filtered) : setSearchString(e.target.value)
+    
+      if(filtered === allVideogames) setFiltered(null);
   }
 
   useEffect(() => {
@@ -48,12 +49,12 @@ function Home() {
     <div className='Home'>
       <h2 className='Home-title'>Esta es la Home page</h2>
       <Navbar handleChange={handleChange} handleSubmit={handleSubmit} />
-      {/* {!searchString ? 
+    
       <Cards allVideogames={allVideogames} />
-      : */}
-      {filtered || searchString ?
+      
+      {filtered ?
         <Cards allVideogames={filtered} />
-        : <Cards allVideogames={allVideogames} />
+        : null
       }
     </div>
   );
