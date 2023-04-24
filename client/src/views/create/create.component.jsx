@@ -2,7 +2,7 @@ import './create.styles.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGame, changePage, getGenres, getPlatforms } from '../../redux/actions/actions'
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 function Create() {
 
@@ -12,7 +12,6 @@ function Create() {
     image: "",
     platforms: [],
     genres: [],
-    // apiGenres: [],
     released: "",
     rating: "",
   });
@@ -56,7 +55,7 @@ function Create() {
   }
 
 
-  const { platforms, genres, pages, apiGenres, apiPlatforms } = useSelector(state => state)
+  const { pages, apiGenres, apiPlatforms } = useSelector(state => state)
 
   const dispatch = useDispatch();
 
