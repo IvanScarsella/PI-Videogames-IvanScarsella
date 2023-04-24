@@ -1,7 +1,7 @@
 import './create.styles.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createGame, changePage, getGenres } from '../../redux/actions/actions'
+import { createGame, changePage, getGenres, getPlatforms } from '../../redux/actions/actions'
 import { useParams } from 'react-router-dom';
 
 function Create() {
@@ -56,14 +56,14 @@ function Create() {
   }
 
 
-  const { platforms, genres, pages, apiGenres } = useSelector(state => state)
+  const { platforms, genres, pages, apiGenres, apiPlatforms } = useSelector(state => state)
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getGenres())
+    dispatch(getPlatforms())
   }, [dispatch])
-  console.log(apiGenres)
 
   function handleChangeInput(e) {
     setInput({
@@ -174,12 +174,6 @@ function Create() {
         </div>
 
         <div>
-          <label>Plataformas
-          </label>
-          <input name='platforms' value={input.platforms} onChange={handleChangeInput} />
-        </div>
-
-        <div>
           <label>Fecha de lanzamiento
           </label>
           <input type='date' name='released' value={input.released} onChange={handleChangeInput} />
@@ -192,7 +186,7 @@ function Create() {
         </div>
 
         {/****  GENRES ******/}
-        <label htmlFor="genres" >Genres</label>
+        <label htmlFor="genres" >Género</label>
         <select name="genres" value={input.genres.length === 0 ? "" : input.genres[input.genres.length - 1]}
           onChange={handleChangeGenres}>
           <option>Seleccione al menos una opción</option>
@@ -213,11 +207,29 @@ function Create() {
               return null
             })}
           </div>}
-        {/* <div>
-          <label>Géneros
-          </label>
-          <input name='genres' value={input.genres} onChange={handleChangeInput} />
-        </div> */}
+
+        {/****  PLATFORMS ******/}
+        <label htmlFor="platforms" >Plataforma</label>
+        <select name="platforms" value={input.platforms.length === 0 ? "" : input.platforms[input.platforms.length - 1]}
+          onChange={handleChangePlatforms}>
+          <option>Seleccione al menos una opción</option>
+          {apiPlatforms[0]?.sort((a, b) => a?.name.localeCompare(b?.name)).map((platform) => {
+            return <option name={platform?.name} key={platform?.name} value={platform?.name}>{platform?.name}</option>
+          })}
+        </select>
+        {error.platforms ? <label >{error.platforms}</label>
+          : <div >
+            {input.platforms.map((d, index) => {
+              if (d !== 'Seleccione al menos una opción') { //select one or more can not be selected
+                return (<>
+                  <button key={index} type="button" onClick={() => deleteSelectValue("platforms", d)}>x</button>
+                  <label>{d}
+                    {index === input?.platforms.length - 1 ? "" : ","}</label> {/* separando por coma menos al final */}
+                </>)
+              }
+              return null
+            })}
+          </div>}
 
         {error.name ||
           error.description ||

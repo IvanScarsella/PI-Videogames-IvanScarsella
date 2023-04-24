@@ -1,12 +1,13 @@
 import {
     GET_VIDEOGAMES, GET_BY_NAME, GET_VIDEOGAME_DETAIL,
-    GET_GAME_BY_ID, CREATE_GAME, GET_GENRES, CHANGE_PAGE, 
+    GET_GAME_BY_ID, CREATE_GAME, GET_GENRES, CHANGE_PAGE, GET_PLATFORMS
 } from "../actions/actions";
 
 let initialState = {
     allVideogames: [],
     allVideogamesCopy: [],
     videogameDetail: {},
+    apiPlatforms: [],
     platforms: [],
     apiGenres: [],
     genres: [],
@@ -46,6 +47,11 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 apiGenres: [action.payload]
+            }
+        case GET_PLATFORMS:
+            return {
+                ...state,
+                apiPlatforms: [action.payload]                
             }
         case CHANGE_PAGE:
             return {
