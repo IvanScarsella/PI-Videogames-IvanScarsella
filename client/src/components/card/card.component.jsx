@@ -3,6 +3,7 @@ import './card.styles.css';
 
 function Card({videogame}) {
   const {name, image, genres, id} = videogame
+  
   return (
     <div className="card-conteiner">
       <Link to={`/detail/${id}`}>

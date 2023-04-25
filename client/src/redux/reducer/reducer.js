@@ -1,6 +1,6 @@
 import {
-    GET_VIDEOGAMES, GET_BY_NAME, GET_VIDEOGAME_DETAIL,
-    GET_GAME_BY_ID, CREATE_GAME, GET_GENRES, CHANGE_PAGE, GET_PLATFORMS
+    GET_VIDEOGAMES, GET_INITIAL_VIDEOGAMES, GET_BY_NAME, GET_VIDEOGAME_DETAIL, GET_GAME_BY_ID,
+    CREATE_GAME, GET_GENRES, GET_PLATFORMS, CHANGE_PAGE, INCREASE_PAGE, DECREASE_PAGE
 } from "../actions/actions";
 
 let initialState = {
@@ -22,6 +22,12 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 allVideogames: action.payload,
                 allVideogamesCopy: action.payload
+            }
+        case GET_INITIAL_VIDEOGAMES:
+            return {
+                ...state,
+                initialGames: action.payload,
+                page: 1
             }
         case GET_BY_NAME:
             return {
@@ -57,6 +63,16 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 page: action.payload
+            }
+        case INCREASE_PAGE:
+            return {
+                ...state, 
+                page: state.page<state.pages ? state.page+1 : state.page
+            }
+        case DECREASE_PAGE:
+            return {
+                ...state, 
+                page: state.page>1 ? state.page-1 : state.page
             }
         default:
             return state;

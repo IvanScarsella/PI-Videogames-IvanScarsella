@@ -3,6 +3,7 @@ import axios from "axios";
 // const { API_KEY } = process.env;
 
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
+export const GET_INITIAL_VIDEOGAMES = "GET_INITIAL_VIDEOGAMES"
 export const GET_BY_NAME = "GET_BY_NAME";
 export const GET_VIDEOGAME_DETAIL = "GET_VIDEOGAME_DETAIL";
 export const GET_GAME_BY_ID = "GET_GAME_BY_ID";
@@ -10,6 +11,8 @@ export const CREATE_GAME = "CREATE_GAME";
 export const GET_GENRES = "GET_GENRES";
 export const GET_PLATFORMS = "GET_PLATFORMS";
 export const CHANGE_PAGE = "CHANGE_PAGE";
+export const INCREASE_PAGE = "INCREASE_PAGE";
+export const DECREASE_PAGE = "DECREASE_PAGE";
 
 export function getVideogames () {
     return async function(dispatch){
@@ -22,6 +25,21 @@ export function getVideogames () {
         } catch (error) {
             console.log(error)
             throw new Error('Could not fetched the videogames')
+        }
+    }
+}
+export const getInitialVideogames = ()=>{ //the first 100 games
+    return async function(dispatch){
+        try{
+            const response = await axios.get(`/videogames`)
+            return dispatch({
+                    type: GET_INITIAL_VIDEOGAMES,
+                    payload: [[1, response.data]]
+                }
+            )
+        }
+        catch(err){
+            throw new Error('Could not fetched the initial videogames')
         }
     }
 }
@@ -105,5 +123,16 @@ export function changePage(page){
     return {
         type: CHANGE_PAGE,
         payload: page
+    }
+}
+export function increasePage(){
+    return {
+        type: INCREASE_PAGE
+    }
+}
+
+export function decreasePage(){
+    return {
+        type: DECREASE_PAGE
     }
 }

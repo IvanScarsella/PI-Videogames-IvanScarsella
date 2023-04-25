@@ -4,6 +4,7 @@ import { getByName, getVideogames } from '../../redux/actions/actions';
 import './home.styles.css';
 import Navbar from '../../components/navbar/navbar.component';
 import Cards from '../../components/cards/cards.component';
+import Menu from '../../components/menu/menu.component';
 
 function Home() {
 
@@ -45,10 +46,12 @@ function Home() {
     // })
   }, [dispatch])
     ; console.log(filtered);
+    
   return (
     <div className='Home'>
       <h2 className='Home-title'>Esta es la Home page</h2>
       <Navbar handleChange={handleChange} handleSubmit={handleSubmit} />
+      <Menu />
     
       <Cards allVideogames={allVideogames} />
       
