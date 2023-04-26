@@ -1,6 +1,4 @@
-import styles from "./menu.styles.css"
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import {faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import "../menu/menu.styles.css"
 import { useDispatch, useSelector } from "react-redux"
 import { increasePage, decreasePage, changePage } from "../../redux/actions/actions"
 import { useEffect, useState } from "react"
@@ -26,17 +24,18 @@ export default function Menu() {
     console.log(page)
 
     return (
-        <div className={styles.menu}>
-            {/* {page!==1 && <button onClick={()=>dispatch(decreasePage())}><FontAwesomeIcon icon={faArrowLeft}/></button>} */}
+        <div className='div_menu'>
+            <p>Páginas</p>
+            {page!==1 && <button onClick={()=>dispatch(decreasePage())}>anterior</button>}
             {
                 //all pages, and active page
                 arrPages.map((p, index) => {
                     return <button key={p}
-                        className={`${p === page && styles.page_btn_active} ${styles.page_btn}`}
+                        className='button'
                         onClick={() => changePageFunct(p)}>{p}</button>
                 })
             }
-            {/* {page!==pages && <button onClick={()=>dispatch(increasePage())}><FontAwesomeIcon icon={faArrowRight}/></button>} */}
+            {page!==pages && <button onClick={()=>dispatch(increasePage())}>siguiente</button>}
         </div>
     )
 }

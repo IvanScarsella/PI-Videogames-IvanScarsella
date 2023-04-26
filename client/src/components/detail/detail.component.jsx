@@ -5,8 +5,8 @@ import { useParams,
   } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideogameDetail } from '../../redux/actions/actions';
-import './detail.styles.css';
 import { Link } from 'react-router-dom';
+import './detail.styles.css';
 
 function Detail() {
 
@@ -30,11 +30,6 @@ function Detail() {
     //   dispatch(clearDetails())
     // }
   }, [dispatch, id])
-
-
-  // const handleBackHome = () => {
-  //   navigate("/videogames")
-  // }
 
   let splitDescrCreatedGames = []
   let newDescrCreatedGames = ""
@@ -60,29 +55,33 @@ function Detail() {
       {//isLoaded ?
         <div>
           {/* <Nav /> */}
+
+          <div>
+            <Link to={'/home'}>
+            <button className='detailButton'>Menú principal</button>
+            </Link>
+          </div>
+        {videogame.image? 
+
           <div className="Detail">
             <div>
               <div />
               <img src={(videogame?.image?.match(/\.(jpeg|jpg|gif|png)$/) || !videogame.image) ? videogame?.image : "https://media.discordapp.net/attachments/1073407771166380107/1079132104325087362/xbox-series-x-controller.webp"} alt="videogame img" />
               <div>
-                <h1>{videogame.name}</h1>
-                {/* {platforms && <p><b>Platforms:</b> {platforms.join(",")}</p>} */}
-                {genres && <p><b>Genres:</b> {genres?.join(",")}</p>}
-                <p><b>Rating:</b> {videogame?.rating}</p>
-                <p><b>Released:</b> {videogame?.released}</p>
+                <h1 className='videogameName'>{videogame.name}</h1>
+                {genres && <p className='details'><b>Genres:</b> {genres.join(",")}</p>}
+                <p className='details'><b>Rating:</b> {videogame?.rating}</p>
+                <p className='details'><b>Released:</b> {videogame?.released}</p>
+                {platforms && <p className='details'><b>Platforms:</b> {platforms.join(", ")}</p>}
               </div>
             </div>
             <div>
-              <p>{videogame.createdByUser ? newDescrCreatedGames : videogame?.description}</p>
+              <p id='description'>{videogame.createdByUser ? newDescrCreatedGames : videogame?.description}</p>
             </div>
           </div>
-          <div>
-            <Link to={'/home'}>
-            <button 
-            // onClick={handleBackHome}
-            >Back to home</button>
-            </Link>
-          </div>
+          : <h3>Cargando...</h3>}
+
+
         </div>
         // :
         //<Loader />

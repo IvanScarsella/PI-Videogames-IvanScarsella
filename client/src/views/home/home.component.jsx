@@ -5,6 +5,8 @@ import './home.styles.css';
 import Navbar from '../../components/navbar/navbar.component';
 import Cards from '../../components/cards/cards.component';
 import Menu from '../../components/menu/menu.component';
+import Filter from '../../components/filter/filter.component';
+import { Link } from 'react-router-dom';
 
 function Home() {
 
@@ -31,7 +33,7 @@ function Home() {
     e.preventDefault();
     setSearchString(e.target.value)
     const filtered = allVideogames.filter((videogame) =>
-    videogame.name.includes(searchString));
+    videogame.name.toLowerCase().includes(searchString.toLowerCase()));
     filtered ? setFiltered(filtered) : setSearchString(e.target.value)
     
       if(filtered === allVideogames) setFiltered(null);
@@ -45,19 +47,25 @@ function Home() {
     //     clearDetail()
     // })
   }, [dispatch])
-    ; console.log(filtered);
-    
+    ; console.log(allVideogames);
+
   return (
     <div className='Home'>
-      <h2 className='Home-title'>Esta es la Home page</h2>
+      <h2 className='Home-title'>PI Videogames</h2>
+      <Link to='/landing'>
+        <button className='backToLanding'>Volver a la landing Page</button>
+      </Link>
+      
+      <Filter />
       <Navbar handleChange={handleChange} handleSubmit={handleSubmit} />
       <Menu />
     
-      <Cards allVideogames={allVideogames} />
+      
+    
       
       {filtered ?
         <Cards allVideogames={filtered} />
-        : null
+        : <Cards allVideogames={allVideogames} />
       }
     </div>
   );

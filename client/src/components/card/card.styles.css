@@ -1,17 +1,42 @@
 .card-conteiner{
     display: flex;
     flex-direction: column;
-    background-color: #95dada;
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 25px;
+    /* background-color: #e2cb92; */
+    background-image: linear-gradient(      
+        #e2cb92a4,
+        #b3a176a4
+    ), url("https://us.123rf.com/450wm/luplupme/luplupme1612/luplupme161200267/67450166-gamepad-patr%C3%B3n-de-colores-sin-fisuras-fondo-controlador-de-jugador-vector-consola-gr%C3%A1fica-bot%C3%B3n-de.jpg");
+    border: 5px solid #d6a832;
+    border-radius: 10px;
+    padding: 30px;
     cursor: pointer;
-    moz-osx-font-smoothing: grayscale;
     backface-visibility: hidden;
     transform: translateZ(0);
-    transition: transform 0.25s ease-out;
+    transition: transform 0.15s ease-out;
+    max-width: 300px;
 }
 
 .card-conteiner:hover{
-    transform: scale(1.05);
+    transform: scale(1.10);
+}
+
+.name{
+    color: #3d413f;
+    font-family:fantasy;
+    font-weight: 500;
+    font-size:2em;
+    text-align:center;
+}
+
+.genres{
+    color: #494d4b;
+    font-family: fantasy;
+    font-weight: 100;
+    font-size: 20px;
+}
+
+.image{
+    height: 150px;
+    border: 3px solid #7c7052;
+    max-width: 250px;
 }

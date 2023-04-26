@@ -1,6 +1,7 @@
 import {
     GET_VIDEOGAMES, GET_INITIAL_VIDEOGAMES, GET_BY_NAME, GET_VIDEOGAME_DETAIL, GET_GAME_BY_ID,
-    CREATE_GAME, GET_GENRES, GET_PLATFORMS, CHANGE_PAGE, INCREASE_PAGE, DECREASE_PAGE
+    CREATE_GAME, GET_GENRES, GET_PLATFORMS, CHANGE_PAGE, INCREASE_PAGE, DECREASE_PAGE, FILTER_CHANGE_VALUE,
+    FILTER_GAMES, GET_CURRENT_PAGES, CLEAR_FILTERS, RESTART_CURRENT_PAGE
 } from "../actions/actions";
 
 let initialState = {
@@ -12,7 +13,15 @@ let initialState = {
     apiGenres: [],
     genres: [],
     page: 1, // página actual
-    pages: 5
+    pages: 5,
+    filters: {
+        genre: "",
+        platform: "",
+        order: "",
+        originData: ""
+    },
+    currentPages: [],
+    filteredPages: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -73,6 +82,45 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state, 
                 page: state.page>1 ? state.page-1 : state.page
+            }
+        case FILTER_CHANGE_VALUE:
+            return {
+                ...state, 
+                filters: {
+                    ...state.filters,
+                    [action.payload.property]: action.payload.value
+                }
+            }
+        case FILTER_GAMES:
+            return {
+                ...state, 
+                currentPages: action.payload,
+                filteredPages: action.payload,
+                page: 1,
+                pages: action.payload.length
+            }
+        case GET_CURRENT_PAGES:
+            return { //
+                ...state,
+                currentPages: action.payload,
+                pages: action.payload.length
+            }
+        case CLEAR_FILTERS:
+            return {
+                ...state,
+                filters: {
+                    genre: "",
+                    platform: "",
+                    order: "",
+                    originData: ""
+                }
+            }
+        case RESTART_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPages: action.payload,
+                pages: action.payload.length,
+                page: 1,
             }
         default:
             return state;
