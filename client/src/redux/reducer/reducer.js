@@ -1,7 +1,7 @@
 import {
     GET_VIDEOGAMES, GET_INITIAL_VIDEOGAMES, GET_BY_NAME, GET_VIDEOGAME_DETAIL, GET_GAME_BY_ID,
     CREATE_GAME, GET_GENRES, GET_PLATFORMS, CHANGE_PAGE, INCREASE_PAGE, DECREASE_PAGE, FILTER_CHANGE_VALUE,
-    FILTER_GAMES, GET_CURRENT_PAGES, CLEAR_FILTERS, RESTART_CURRENT_PAGE
+    FILTER_GAMES, GET_CURRENT_PAGES, CLEAR_FILTERS, RESTART_CURRENT_PAGE, CLEAR_DETAIL
 } from "../actions/actions";
 
 let initialState = {
@@ -13,7 +13,7 @@ let initialState = {
     apiGenres: [],
     genres: [],
     page: 1, // página actual
-    pages: 5,
+    pages: 0, // páginas totales
     filters: {
         genre: "",
         platform: "",
@@ -48,6 +48,11 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 videogameDetail: action.payload
             }
+        case CLEAR_DETAIL:
+            return {
+                ...state,
+                videogameDetail: {}
+            }
         case GET_GAME_BY_ID:
             return {
                 ...state,
@@ -58,7 +63,7 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 allVideogames: [...state.allVideogames, action.payload]
             }
-        case GET_GENRES: 
+        case GET_GENRES:
             return {
                 ...state,
                 apiGenres: [action.payload]
@@ -66,7 +71,7 @@ function rootReducer(state = initialState, action) {
         case GET_PLATFORMS:
             return {
                 ...state,
-                apiPlatforms: [action.payload]                
+                apiPlatforms: [action.payload]
             }
         case CHANGE_PAGE:
             return {
@@ -75,17 +80,17 @@ function rootReducer(state = initialState, action) {
             }
         case INCREASE_PAGE:
             return {
-                ...state, 
-                page: state.page<state.pages ? state.page+1 : state.page
+                ...state,
+                page: state.page < state.pages ? state.page + 1 : state.page
             }
         case DECREASE_PAGE:
             return {
-                ...state, 
-                page: state.page>1 ? state.page-1 : state.page
+                ...state,
+                page: state.page > 1 ? state.page - 1 : state.page
             }
         case FILTER_CHANGE_VALUE:
             return {
-                ...state, 
+                ...state,
                 filters: {
                     ...state.filters,
                     [action.payload.property]: action.payload.value
@@ -93,7 +98,7 @@ function rootReducer(state = initialState, action) {
             }
         case FILTER_GAMES:
             return {
-                ...state, 
+                ...state,
                 currentPages: action.payload,
                 filteredPages: action.payload,
                 page: 1,

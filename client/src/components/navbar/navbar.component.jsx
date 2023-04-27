@@ -1,14 +1,20 @@
 import './navbar.styles.css';
+import FilterBy from '../filter/filter.component';
 
-function Navbar({handleChange, handleSubmit}) {
+function Navbar({ handleSubmit }) {
   return (
     <div className="search-box">
       <h1 className='navbarTitle'>Escriba el nombre del juego que está buscando</h1>
       <form onChange={handleSubmit}>
-        <input placeholder="Búsqueda" type="search" onChange={handleChange} />
-        <button type='submit' onClick={handleSubmit}>Buscar</button>
+        <input placeholder="Búsqueda" type="search" id='busqueda' />
+        {/* <button type='submit' 
+        onClick={handleSubmit}
+        >Buscar</button> */}
+        <FilterBy>
+
+        </FilterBy>
       </form>
-      
+
     </div>
   );
 }

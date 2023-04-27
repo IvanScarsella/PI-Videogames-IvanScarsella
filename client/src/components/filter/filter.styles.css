@@ -1,17 +1,18 @@
-select{
-color: #332202;
-background-color: wheat;
-font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-font-size: 20px;
-min-width: 200px;
-margin: 10px;
-border-radius: 10px;
+select {
+    color: #332202;
+    background-color: wheat;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    min-width: 200px;
+    margin: 10px;
+    border-radius: 10px;
 }
-select:hover{
+
+select:hover {
     transform: scale(1.05);
 }
 
-button{
+button {
     height: 25px;
     width: 150px;
     border: 2px solid #332202;
@@ -19,23 +20,27 @@ button{
     border-color: #332202;
     background-color: wheat;
     font-size: 1.2em;
-    cursor:pointer;
+    cursor: pointer;
     border-radius: 10px;
 }
-button:hover{
-        transform: scale(1.15);
+
+button:hover {
+    transform: scale(1.15);
 }
-h1{
+
+h1 {
     background-color: #7e540652;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 25px;
     text-align: center;
 }
-form{
+
+form {
     border-radius: 10px;
     background-color: #947c117e;
 }
-.filter{
+
+.filter {
     background-color: #7e540652;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 25px;

@@ -5,6 +5,6 @@ const routesPlatforms = Router();
 
 
 
-routesPlatforms.get("/", getPlatforms )
+routesPlatforms.get("/", getPlatforms)
 
 module.exports = routesPlatforms;

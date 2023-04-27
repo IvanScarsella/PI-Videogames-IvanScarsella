@@ -5,6 +5,6 @@ const routesGenres = Router();
 
 
 
-routesGenres.get("/", getGenres )
+routesGenres.get("/", getGenres)
 
 module.exports = routesGenres;

@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
       type: DataTypes.UUID,
       allowNull: true,
       primaryKey: true,
-      defaultValue: UUIDV4
+      defaultValue: DataTypes.UUIDV4
     },
     name: {
       type: DataTypes.STRING,
@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
     image: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'https://media.vandal.net/i/1280x720/1-2023/202312017362844_1.jpg'
+      defaultValue: 'https://www.shutterstock.com/image-vector/video-game-controller-background-gadgets-260nw-1177928209.jpg'
     },
     release: {
       type: DataTypes.DATEONLY,
@@ -45,5 +45,5 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true
     }
-  }, {timestamps: false});
+  }, { timestamps: false });
 };

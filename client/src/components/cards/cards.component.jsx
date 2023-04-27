@@ -1,13 +1,12 @@
+import { useSelector } from "react-redux"
 import Card from "../card/card.component";
 import './cards.styles.css';
-import { useSelector } from "react-redux"
 
 function Cards({ allVideogames }) {
-  // const dispatch = useDispatch()
 
   const { page } = useSelector(state => state)
-  
-  const videogamesList = allVideogames.slice((page-1)*20, page*20 )
+
+  const videogamesList = allVideogames.slice((page - 1) * 20, page * 20) // muestro 20 videojuegos
 
   return (
     <div className="card-list">

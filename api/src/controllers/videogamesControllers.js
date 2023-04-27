@@ -24,19 +24,21 @@ const createVideogameDB = async (name, description, platform, image, release, ra
                 rating,
             })
 
-            const genresDB = await Genre.findAll({
-                where: { name: genres }
-            })
+            // const genresDB = await Genre.findAll({
+            //     where: { name: genres }
+            // })
 
-            const platformsDB = await Platform.findAll({
-                where: { name: platform }
-            })
+            // const platformsDB = await Platform.findAll({
+            //     where: { name: platform }
+            // })
 
-                ;
-            newVideogame.addVideogames_genres(genresDB)
-            newVideogame.addVideogames_platforms(platformsDB)
+            //     ;
+            // newVideogame.addVideogames_genres(genresDB)
+            // newVideogame.addVideogames_platforms(platformsDB)
             return newVideogame;
 
+        } else {
+            throw new Error("No se ha creado el videojuego")
         }
         // }
     } catch (error) {
@@ -73,8 +75,6 @@ const getAllVideogames = async () => {
     infoApi.push((await axios(infoApi[2].next)).data)
     infoApi.push((await axios(infoApi[3].next)).data)
 
-;console.log(infoApi)
-
     // let nextPage = infoApi[0].next;
     // let map = infoApi[0].results;
     // infoApi = [...infoApi, ...map]
@@ -107,13 +107,12 @@ const getAllVideogames = async () => {
         ...videogameApi4.slice(0, 20),
         ...videogameApi5.slice(0, 20),
      ];
-    // const second20Videogames = [...videogameApi.slice(15, 30)]
 
-    return [
+    return [// junta los arrays
         // ...videogameDB,
     ...first100Videogames,
     // ...infoApi
-    ]; // esto junta los arrays
+    ]; 
 }
 
 const getVideogameByName = async (videogame) => {

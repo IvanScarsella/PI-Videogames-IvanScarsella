@@ -1,12 +1,12 @@
-import './create.styles.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from "react-router-dom"
 import { createGame, changePage, getGenres, getPlatforms } from '../../redux/actions/actions'
-// import { useParams } from 'react-router-dom';
+import './create.styles.css';
 
 function Create() {
 
-  const [input, setInput] = useState({
+  const [input, setInput] = useState({ // estado local que guarda los datos del form
     name: "",
     description: "",
     image: "",
@@ -16,8 +16,7 @@ function Create() {
     rating: "",
   });
 
-
-  const [error, setError] = useState({
+  const [error, setError] = useState({ // estado local que guarda los errores
     name: "",
     description: "",
     image: "",
@@ -27,28 +26,31 @@ function Create() {
     rating: "",
   })
 
-  const validate = (input) => {
+  const validate = (input) => { // validaciones del form
     let error = {}
     const regexName = new RegExp('^[A-Za-z0-9 ]+$', 'i');
+    const regexImage = new RegExp('/(\.jpg|\.jpeg|\.png|\.gif)$/i.test(filename)')
     if (!input.name) {
       error.name = "Inserte un nombre"
     } if (input.name.length > 40) {
       error.name = "El nombre debe tener menos de 40 caracteres"
-    } else if (!regexName.test(input.name)) {
+    } if (!regexName.test(input.name)) {
       error.name = "El nombre debe contener solo letras y números"
-    } else if (!input.image) {
+    } if (!regexImage.test(input.image)) {
+      error.image = "El formato de la imagen no es compatible"
+    } if (!input.image) {
       error.image = "Inserte una imagen"
-    } else if (input.genres.length === 0) {
+    } if (input.genres.length === 0) {
       error.genres = "Inserte al menos un género"
-    } else if (!input.released) {
+    } if (!input.released) {
       error.released = "Inserte una fecha de lanzamiento"
-    } else if (!input.rating || input.rating < 1 || input.rating > 5) {
-      error.rating = "El rating tiene que estar entre 1 y 5 puntos"
-    } else if (input.platforms.length === 0) {
+    } if (!input.rating || input.rating < 1 || input.rating > 5 || isNaN(input.rating)) {
+      error.rating = "El rating debe ser un número entre 1 y 5"
+    } if (input.platforms.length === 0) {
       error.platforms = "Inserte al menos una plataforma"
-    } else if (!input.description) {
+    } if (!input.description) {
       error.description = "Inserte una descripción de no mas de 800 caracteres"
-    } else if (!input.description.length > 800) {
+    } if (!input.description.length > 800) {
       error.description = "La descripción debe tener menos de 800 caracteres"
     }
     return error
@@ -64,7 +66,7 @@ function Create() {
     dispatch(getPlatforms())
   }, [dispatch])
 
-  function handleChangeInput(e) {
+  function handleChangeInput(e) { // controla los cambios del form a medida que se van realizando
     setInput({
       ...input,
       [e.target.name]: e.target.value
@@ -76,9 +78,9 @@ function Create() {
     }))
   }
 
-  const handleChangeGenres = (e) => {
+  const handleChangeGenres = (e) => { // controla los inputs para los géneros
     const { genres } = input
-    if (e.target.value !== 'Seleccione al menos una opción') { //select one or more can not be added
+    if (e.target.value !== 'Seleccione al menos una opción') {
       const find = genres.find(f => f === e.target.value)
       if (!find) {
         setInput({
@@ -93,15 +95,9 @@ function Create() {
     }
   }
 
-  const handleChangePlatforms = (e) => {
+  const handleChangePlatforms = (e) => { // controla los inputs para las plataformas
     const { platforms } = input
-    if (!input.image) { //defaultImage
-      setInput({
-        ...input,
-        image: 'https://thumbs.dreamstime.com/b/gorila-gorila-del-silverback-22730829.jpg'
-      })
-    }
-    if (e.target.value !== 'Select one or more options...') { //select one or more can not be added
+    if (e.target.value !== 'Select one or more options...') {
       const find = platforms.find(f => f === e.target.value)
       if (!find) {
         setInput({
@@ -116,26 +112,23 @@ function Create() {
     }
   }
 
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = (e) => { // renderiza el botón submit si está todo ok
     e.preventDefault()
     dispatch(createGame(input));
-    if (Object.values(input).length === 7 && error.name !== null) { //obtiene los datos
-      setInput({
-        name: "",
-        description: "",
-        image: "",
-        platforms: [],
-        genres: [],
-        released: "",
-        rating: ""
-      })
-      alert("Has creado un videojuego con éxito")
-      // navigate("/videogames")
-      dispatch(changePage(pages)) //reinitiating the page to 
-    }
+    setInput({
+      name: "",
+      description: "",
+      image: "",
+      platforms: [],
+      genres: [],
+      released: "",
+      rating: ""
+    })
+    alert("Has creado un videojuego con éxito")
+    dispatch(changePage(pages)) //vuelve a la página principal
   }
 
-  function deleteSelectValue(property, value) {
+  function deleteSelectValue(property, value) { // borra las opciones seleccionadas
     const filter = input[property].filter(p => p !== value)
     setInput({
       ...input,
@@ -151,37 +144,44 @@ function Create() {
 
   return (
     <div className="Create">
-      <form onSubmit={handleSubmitForm}>
+      <Link to='/landing'>
+        <button className='backToLanding'>Volver a la landing Page</button>
+      </Link>
+      <form className='createForm' onSubmit={handleSubmitForm}>
 
         <div>
           <label>Nombre
           </label>
           <input type='text' name='name' value={input.name} onChange={handleChangeInput} />
-          {error.name && <label >{error.name}</label>}
+          {error.name && <label className='errorLabel'>{error.name}</label>}
         </div>
 
         <div>
           <label>Descripción
           </label>
           <input type='text' name='description' value={input.description} onChange={handleChangeInput} />
+          {error.description && <label className='errorLabel'>{error.description}</label>}
         </div>
 
         <div>
           <label>Imagen
           </label>
           <input type='url' name='image' value={input.image} onChange={handleChangeInput} />
+          {error.image && <label className='errorLabel'>{error.image}</label>}
         </div>
 
         <div>
           <label>Fecha de lanzamiento
           </label>
           <input type='date' name='released' value={input.released} onChange={handleChangeInput} />
+          {error.released && <label className='errorLabel'>{error.released}</label>}
         </div>
 
         <div>
           <label>Rating
           </label>
           <input type='numbre' name='rating' value={input.rating} onChange={handleChangeInput} />
+          {error.rating && <label className='errorLabel'>{error.rating}</label>}
         </div>
 
         {/****  GENRES ******/}
@@ -193,14 +193,14 @@ function Create() {
             return <option name={genre?.name} key={genre?.name} value={genre?.name}>{genre?.name}</option>
           })}
         </select>
-        {error.genres ? <label >{error.genres}</label>
+        {error.genres ? <label className='errorLabel'>{error.genres}</label>
           : <div >
             {input.genres.map((d, index) => {
-              if (d !== 'Seleccione al menos una opción') { //select one or more can not be selected
+              if (d !== 'Seleccione al menos una opción') {
                 return (<>
-                  <button key={index} type="button" onClick={() => deleteSelectValue("genres", d)}>x</button>
+                  <button className='deleteButton' key={index} type="button" onClick={() => deleteSelectValue("genres", d)}>X</button>
                   <label>{d}
-                    {index === input?.genres.length - 1 ? "" : ","}</label> {/* separando por coma menos al final */}
+                    {index === input?.genres.length - 1 ? "" : ","}</label> {/* separo por coma, menos al final */}
                 </>)
               }
               return null
@@ -216,14 +216,14 @@ function Create() {
             return <option name={platform?.name} key={platform?.name} value={platform?.name}>{platform?.name}</option>
           })}
         </select>
-        {error.platforms ? <label >{error.platforms}</label>
+        {error.platforms ? <label className='errorLabel'>{error.platforms}</label>
           : <div >
             {input.platforms.map((d, index) => {
-              if (d !== 'Seleccione al menos una opción') { //select one or more can not be selected
+              if (d !== 'Seleccione al menos una opción') {
                 return (<>
-                  <button key={index} type="button" onClick={() => deleteSelectValue("platforms", d)}>x</button>
+                  <button className='deleteButton' key={index} type="button" onClick={() => deleteSelectValue("platforms", d)}>X</button>
                   <label>{d}
-                    {index === input?.platforms.length - 1 ? "" : ","}</label> {/* separando por coma menos al final */}
+                    {index === input?.platforms.length - 1 ? "" : ","}</label> {/* separo por coma, menos al final */}
                 </>)
               }
               return null

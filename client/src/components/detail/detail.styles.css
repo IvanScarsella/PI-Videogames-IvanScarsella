@@ -1,42 +1,54 @@
-.Detail{
+.Detail {
     border: 5px solid #e0bf82;
     background-color: #e0bf8213;
-    /* max-height: 85vw; */
+    background-image: linear-gradient(#e2cb92a4,
+            #b3a176a4), url("https://us.123rf.com/450wm/luplupme/luplupme1612/luplupme161200267/67450166-gamepad-patr%C3%B3n-de-colores-sin-fisuras-fondo-controlador-de-jugador-vector-consola-gr%C3%A1fica-bot%C3%B3n-de.jpg");
+    border: 5px solid #d6a832;
+    border-radius: 10px;
 }
 
-img{
+img {
     max-width: 700px;
     max-height: 700px;
 }
-h1{
+
+h1 {
     background-color: #704513b6;
     font-size: 60px;
     font-family: fantasy;
 }
-p{
+
+p {
     font-size: 40px;
     background-color: #f5deb311;
 }
-#description{
+
+#description {
     text-align: left;
-    font-size: 30px;
+    font-size: 26px;
     background-color: #f5deb338;
 }
-h3{
-    color:aliceblue
+
+h3 {
+    color: aliceblue
 }
-.videogameName{
+
+.videogameName {
     font-size: 50px;
     font-family: fantasy;
 }
-.details{
+
+.details {
     font-size: 35px;
     text-align: left;
 }
-.detailButton{
+
+.detailButton {
     font-size: 20px;
     width: 150px;
+    height: 40px;
 }
-.detailButton:hover{
+
+.detailButton:hover {
     transform: scale(1.15);
 }

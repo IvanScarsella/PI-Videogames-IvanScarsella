@@ -42,7 +42,9 @@ const createVideogame = async (req, res) => {
         const { name, description, platform, image, release, rating, genres } = req.body;
 
         const response = await createVideogameDB(name, description, platform, image, release, rating, genres);
-        res.status(200).json(response);console.log(response)
+        res.status(200).json(response);
+        console.log("hola")
+        console.log(response)
     } catch (error) {
         console.log(error)
         res.status(400).json({ error: error.message })
@@ -52,7 +54,6 @@ const createVideogame = async (req, res) => {
 }
 
 module.exports = {
-    // getVideogames,
     getVideogameDetail,
     getFirstsVideogames,
     createVideogame

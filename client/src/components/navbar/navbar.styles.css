@@ -1,4 +1,4 @@
-.search-box{
+.search-box {
     -webkit-appearance: none;
     border: none;
     outline: none;
@@ -9,9 +9,11 @@
     background-color: #947c117e;
     border-radius: 10px;
 }
-.input{
+
+.input {
     border-radius: 10px;
 }
-.navbarTitle{
+
+.navbarTitle {
     font-size: 30px;
 }

@@ -1,4 +1,4 @@
-.card-list{
+.card-list {
     width: 85vw;
     margin: 0 auto;
     display: grid;
@@ -6,6 +6,6 @@
     grid-gap: 20px;
 }
 
-div{
+div {
     margin: 10px;
 }

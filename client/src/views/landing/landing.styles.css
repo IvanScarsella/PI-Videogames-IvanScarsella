@@ -1,31 +1,42 @@
-.landingContainer{
+.landingContainer {
     height: 100px;
     /* width: 100px; */
 }
-h1{
+
+h1 {
     font-size: 50px;
 }
-h2{
+
+h2 {
     font-size: 40px;
 }
-a{
-font-size: 30px;
-color: #fffb00;
+
+a {
+    font-size: 30px;
+    /* color: #fffb00; */
 }
-img:hover{
+
+img:hover {
     transform: 1.15;
     padding: 20px;
 }
-.landingButton{
+
+.landingButton {
     font-size: 24px;
     width: auto;
     height: auto;
 }
-.landingButton:hover{
-transform: 1.15;
+
+.landingButton:hover {
+    transform: 1.15;
 }
-.henryButton{
+
+.henryButton {
     background-color: black;
     width: 180px;
     height: 100px;
+}
+
+.henry {
+    color: #fffb00;
 }
